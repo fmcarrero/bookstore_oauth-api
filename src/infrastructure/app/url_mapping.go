@@ -9,4 +9,5 @@ func mapUrls(handler access_token.Handler) {
 
 	router.GET("/ping", controllers.Ping)
 	router.GET("/oauth/access_token/:access_token_id", handler.GetById)
+	router.POST("/oauth/access_token", handler.Create)
 }

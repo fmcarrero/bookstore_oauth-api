@@ -6,4 +6,6 @@ import (
 
 type AccessTokenRepository interface {
 	GetById(string) (*access_token.AccessToken, error)
+	Create(token *access_token.AccessToken) error
+	UpdateExpirationTime(token access_token.AccessToken) error
 }
