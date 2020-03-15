@@ -27,9 +27,9 @@ jobs:
       - name: Build
         run: go build -v .
 
-      - name: unit-test
+      - name: unittest
         run: make test-unit
 
-      - name: integration-test
-       run: make test-integration
+      - name: integrationtest
+        run: make test-integration
 
