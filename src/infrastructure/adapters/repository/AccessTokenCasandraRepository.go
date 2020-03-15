@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/fmcarrero/bookstore_oauth-api/src/domain/access_token"
 	"github.com/fmcarrero/bookstore_oauth-api/src/infrastructure/cassandra"
+	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/gocql/gocql"
 )
 
@@ -34,8 +35,8 @@ func (repository *AccessTokenCassandraRepository) GetById(id string) (*access_to
 func (repository *AccessTokenCassandraRepository) Create(token *access_token.AccessToken) error {
 
 	if err := cassandra.GetSession().Query(queryCreateAccessToken, token.AccessToken, token.UserId, token.ClientId, token.Expires).Exec(); err != nil {
-		fmt.Println(err)
-		return errors.New(fmt.Sprint("error when created access token %s", token.AccessToken))
+		logger.Error(err.Error(), err)
+		return errors.New(fmt.Sprint("error when created access token"))
 	}
 	return nil
 }
@@ -44,7 +45,7 @@ func (repository *AccessTokenCassandraRepository) UpdateExpirationTime(token acc
 
 	if err := cassandra.GetSession().Query(queryUpdateExpires, token.Expires, token.AccessToken).Exec(); err != nil {
 		fmt.Println(err)
-		return errors.New(fmt.Sprint("error when updated access token %s", token.AccessToken))
+		return errors.New(fmt.Sprint("error when updated access token"))
 	}
 	return nil
 }

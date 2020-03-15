@@ -26,3 +26,10 @@ jobs:
 
       - name: Build
         run: go build -v .
+
+      - name: unit-test
+        run:  make test-unit
+
+      -name:  integration-test
+        run:  make test-integration
+

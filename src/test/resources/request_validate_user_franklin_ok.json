@@ -1,0 +1,17 @@
+[
+  {
+    "httpRequest": {
+      "path": "/users/login"
+    },
+    "httpResponse": {
+      "body": {
+        "id": 1,
+        "first_name": "franklin",
+        "last_name" : "carrero",
+        "email" : "mauriciocarrero15@gmail.com",
+        "date_created" : "",
+        "status" : "active"
+      }
+    }
+  }
+]

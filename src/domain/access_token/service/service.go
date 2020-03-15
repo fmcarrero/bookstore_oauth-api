@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/fmcarrero/bookstore_oauth-api/src/domain/access_token"
 	"github.com/fmcarrero/bookstore_oauth-api/src/domain/access_token_request"
+	"github.com/fmcarrero/bookstore_utils-go/logger"
 )
 import "github.com/fmcarrero/bookstore_oauth-api/src/domain/ports"
 
@@ -37,6 +38,7 @@ func (s *Service) Create(request access_token_request.AccessTokenRequest) (*acce
 	at := access_token.GetNewAccessToken(user.Id)
 	at.Generate()
 	if err := s.AccessTokenRepository.Create(&at); err != nil {
+		logger.Error(err.Error(), err)
 		return nil, err
 	}
 	return &at, nil
