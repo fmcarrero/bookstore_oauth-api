@@ -7,7 +7,7 @@ DOCKER_IMAGE_NAME=franklincarrero/bookstore_oauth-api
 check: test lint vet ## Runs all tests
 
 test-unit: ## Run the unit tests
-	go test -cover -race -v ./... -tags!=integration
+	go test -cover -race -v ./... -tags=unit
 
 test-integration: ## Run the unit tests
 	go test -cover -race -v ./... -tags=integration
