@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 	"github.com/gocql/gocql"
+	"github.com/testcontainers/testcontainers-go/wait"
 	"io/ioutil"
 	"log"
 	"strconv"
 
 	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/testcontainers/testcontainers-go"
-	"github.com/testcontainers/testcontainers-go/wait"
 	"os"
 )
 
@@ -25,7 +25,7 @@ func LoadCassandra() (testcontainers.Container, context.Context) {
 	req := testcontainers.ContainerRequest{
 		Image:        "cassandra:latest",
 		ExposedPorts: []string{"9042/tcp", "9160/tcp"},
-		WaitingFor:   wait.ForLog(" Starting listening for CQL clients on /0.0.0.0:9042 (unencrypted)..."),
+		WaitingFor:   wait.ForLog("Not starting RPC server as requested. Use JMX (StorageService->startRPCServer()) or nodetool (enablethrift) to start it"),
 	}
 
 	cassandraC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
