@@ -57,7 +57,7 @@ func TestHandler_Create(t *testing.T) {
 	accessToken := access_token_request.AccessTokenRequest{
 		GrantType:    "password",
 		Username:     "mauriciocarrero15@gmail.com",
-		Password:     "sistemas31",
+		Password:     "rationale",
 		ClientId:     "1",
 		ClientSecret: "1",
 	}

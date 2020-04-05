@@ -1,8 +1,10 @@
 package access_token
 
 import (
+	"fmt"
 	"github.com/fmcarrero/bookstore_oauth-api/src/application/uses_cases"
 	"github.com/fmcarrero/bookstore_oauth-api/src/domain/access_token_request"
+	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/fmcarrero/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -25,10 +27,14 @@ func (h *Handler) GetById(c *gin.Context) {
 	accessToken, err := h.GetAccessTokenUseCase.Handler(accessTokenId)
 	if err != nil {
 		if strings.Contains(err.Error(), "no access token when give") {
-			c.JSON(http.StatusNotFound, err.Error())
+			restErr := rest_errors.NewNotFoundError(fmt.Sprintf("%s not found", accessTokenId))
+			logger.Error(restErr.Message(), restErr)
+			c.JSON(restErr.Status(), restErr.Message())
 			return
 		}
-		c.JSON(http.StatusBadRequest, err.Error())
+		restErr := rest_errors.NewBadRequestError(fmt.Sprintf("bad request with id %s", accessTokenId))
+		logger.Error(restErr.Message(), restErr)
+		c.JSON(restErr.Status(), restErr.Message())
 		return
 	}
 	c.JSON(http.StatusOK, accessToken)
