@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  app:
+    build:
+      context: . #current directory
+      dockerfile: Dockerfile #use the dockerfile called Dockerfile
+    ports:
+      - "8080:8080" #forward port from my app to the OS
+    links: # app needs that cassandra is deployed successfully before app runs
+      - cassandra
+    environment: # Pass environment variables to the service
+      CASSANDRA_HOST: "cassandra"
+      CASSANDRA_PORT: "9042"
+    networks:
+      - minesweepernet
+  cassandra:
+    image: "cassandra:latest" #could be cassandra or cassandra latest, is the same
+    networks:
+      - minesweepernet
+    ports:
+      - "9042:9042" #forward port from cassandra to the OS
+networks:
+  minesweepernet: # network to communicate containers with each other

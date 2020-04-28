@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/fmcarrero/bookstore_oauth-api/src/application/uses_cases"
 	"github.com/fmcarrero/bookstore_oauth-api/src/domain/access_token/service"
 	"github.com/fmcarrero/bookstore_oauth-api/src/infrastructure/adapters/repository"
@@ -9,6 +10,7 @@ import (
 	"github.com/fmcarrero/bookstore_oauth-api/src/infrastructure/rest/users"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"os"
 )
 
 var (
@@ -33,7 +35,11 @@ func StartApplication() {
 	}
 
 	MapUrls(handler)
-	_ = Router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port!= "" {
+		port = "8080"
+	}
+	_ = Router.Run(fmt.Sprintf(":%s",port))
 
 }
 
