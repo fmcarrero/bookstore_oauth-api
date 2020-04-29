@@ -1,5 +1,19 @@
 version: "3.3"
 services:
+  cassandra:
+    image: "cassandra:latest" #could be cassandra or cassandra latest, is the same
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - minesweepernet
+    ports:
+      - "9042:9042" #forward port from cassandra to the OS
+    volumes:
+      - "./cassandra-init.sh:/cassandra-init.sh"
+    command: "sh /cassandra-init.sh"
   app:
     build:
       context: . #current directory
@@ -8,16 +22,15 @@ services:
       - "8080:8080" #forward port from my app to the OS
     links: # app needs that cassandra is deployed successfully before app runs
       - cassandra
+    depends_on:
+      - cassandra
     environment: # Pass environment variables to the service
       CASSANDRA_HOST: "cassandra"
       CASSANDRA_PORT: "9042"
     networks:
       - minesweepernet
-  cassandra:
-    image: "cassandra:latest" #could be cassandra or cassandra latest, is the same
-    networks:
-      - minesweepernet
-    ports:
-      - "9042:9042" #forward port from cassandra to the OS
+    restart: always
+
+
 networks:
   minesweepernet: # network to communicate containers with each other

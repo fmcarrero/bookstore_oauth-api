@@ -36,7 +36,7 @@ func StartApplication() {
 
 	MapUrls(handler)
 	port := os.Getenv("PORT")
-	if port!= "" {
+	if port == "" {
 		port = "8080"
 	}
 	_ = Router.Run(fmt.Sprintf(":%s",port))
